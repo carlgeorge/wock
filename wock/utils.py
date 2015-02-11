@@ -60,7 +60,6 @@ class ContextObj():
                    '--query',
                    '--queryformat', '%{name}-%{version}-%{release}\n',
                    '--specfile', self.spec]
-        click.secho(' '.join(command), fg='cyan')
         output = subprocess.check_output(command,
                                          universal_newlines=True,
                                          stderr=subprocess.DEVNULL)
