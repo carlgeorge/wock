@@ -59,7 +59,6 @@ class ContextObj():
                                          universal_newlines=True,
                                          stderr=subprocess.DEVNULL)
         srpm_name = output.split('\n')[0] + '.src.rpm'
-        click.secho(srpm_name, fg='yellow')
         self._srpm = self._results / srpm_name
         self.srpm = self._srpm.as_posix()
         if self._srpm.exists():
