@@ -8,10 +8,8 @@ URL: https://github.rackspace.com/carl-george/wock
 Source0: https://github.rackspace.com/carl-george/%{name}/archive/%{version}.tar.gz
 Source1: wock.bash_completion
 BuildArch: noarch
-BuildRequires: bash-completion
 BuildRequires: python3-devel
 BuildRequires: python3-setuptools
-Requires: bash-completion
 Requires: python3-click
 
 
