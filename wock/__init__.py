@@ -6,7 +6,7 @@ from .utils import ContextObj
 
 @click.group()
 @click.option('--pkgname')
-@click.option('--release', envvar='WOCK', required=True)
+@click.option('--release', envvar='WOCK')
 @click.option('--architecture', default='x86_64')
 @click.pass_context
 def cli(context, pkgname, release, architecture):

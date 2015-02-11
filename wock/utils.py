@@ -7,7 +7,14 @@ class ContextObj():
     def __init__(self, pkgname, release, architecture):
         self._base = pathlib.Path.cwd()
         self.pkgname = pkgname or self._base.name
-        self.release = release
+
+        if release:
+            self.release = release
+        else:
+            err = ('Undefined release.\n\nSet the release either with the '
+                   '"--release" flag or by setting the environment variable '
+                   'WOCK.\n\nExample:\nexport WOCK=el6\n')
+            raise click.ClickException(err)
         self.architecture = architecture
 
         mockdir = pathlib.Path('/etc/mock')
