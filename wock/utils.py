@@ -4,7 +4,9 @@ import click
 
 
 class ContextObj():
-    def __init__(self, release, architecture):
+    def __init__(self, pkgname, release, architecture):
+        self._base = pathlib.Path.cwd()
+        self.pkgname = pkgname or self._base.name
         self.release = release
         self.architecture = architecture
 
@@ -21,9 +23,6 @@ class ContextObj():
             raise click.ClickException(err)
         self._mockcfg = configs[0]
         self.mockcfg = self._mockcfg.as_posix()
-
-        self._base = pathlib.Path.cwd()
-        self.pkg_name = self._base.name
         self.root = self._mockcfg.stem
 
         self._sources = self._base / 'SOURCES'
@@ -32,7 +31,7 @@ class ContextObj():
         self._results = self._base / 'MOCK' / self.root
         self.results = self._results.as_posix()
 
-        self._spec = self._base / 'SPECS' / (self.pkg_name + '.spec')
+        self._spec = self._base / 'SPECS' / (self.pkgname + '.spec')
         self.spec = self._spec.as_posix()
 
     def do_checks(self):

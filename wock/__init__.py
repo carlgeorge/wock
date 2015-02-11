@@ -5,11 +5,12 @@ from .utils import ContextObj
 
 
 @click.group()
+@click.option('--pkgname')
 @click.option('--release', envvar='WOCK', required=True)
 @click.option('--architecture', default='x86_64')
 @click.pass_context
-def cli(context, release, architecture):
-    context.obj = ContextObj(release, architecture)
+def cli(context, pkgname, release, architecture):
+    context.obj = ContextObj(pkgname, release, architecture)
 
 
 @click.command()
