@@ -1,5 +1,3 @@
-import pathlib
-import subprocess
 import click
 from .utils import ContextObj
 
