@@ -42,7 +42,7 @@ def build(cobj, just_srpm):
 @click.argument('packages', nargs=-1, type=click.Path(exists=True))
 @click.pass_obj
 def install(cobj, packages):
-    ''' Install rpm inside chroot. '''
+    ''' Install rpm inside the chroot. '''
     cobj.install(packages)
 
 
