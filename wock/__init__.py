@@ -1,15 +1,14 @@
 import os
+import pathlib
 import click
 from .utils import ContextObj
 
 
 @click.group()
-@click.option('--pkgname',
-              help='Desired package name.\t[current directory name]')
+@click.option('--pkgname', help='[{}]'.format(pathlib.Path.cwd().name))
 @click.option('--release', envvar='WOCK',
-              help='Desired release.\t[{}]'.format(os.environ.get('WOCK')))
-@click.option('--architecture', default='x86_64',
-              help='Desired architecture.\t[x86_64]')
+              help='[{}]'.format(os.environ.get('WOCK')))
+@click.option('--architecture', default='x86_64', help='[x86_64]')
 @click.pass_context
 def cli(context, pkgname, release, architecture):
     ''' A wrapper for mock. '''
