@@ -4,8 +4,8 @@ Release: 1%{?dist}
 Summary: A stupid wrapper for mock
 Group: Development/Tools
 License: ASL 2.0
-URL: https://github.rackspace.com/carl-george/wock
-Source0: https://github.rackspace.com/carl-george/%{name}/archive/%{version}.tar.gz
+URL: https://github.com/cgtx/wock
+Source0: https://github.com/cgtx/%{name}/archive/%{version}.tar.gz
 Source1: wock.bash_completion
 BuildArch: noarch
 BuildRequires: python3-devel
