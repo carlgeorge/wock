@@ -11,6 +11,8 @@ BuildArch: noarch
 BuildRequires: python3-devel
 BuildRequires: python3-setuptools
 Requires: python3-click
+Requires: mock
+Requires: rpmdevtools
 
 
 %description
