@@ -55,7 +55,8 @@ class ContextObj():
         click.secho(' '.join(command), fg='cyan')
         self._run(command)
 
-    def get_srpm_name(self):
+    @property
+    def srpm(self):
         command = ['rpm',
                    '--define', 'dist .{}'.format(self.release),
                    '--query',
@@ -66,9 +67,8 @@ class ContextObj():
                                          stderr=subprocess.DEVNULL)
         srpm_name = output.split('\n')[0] + '.src.rpm'
         self._srpm = self._results / srpm_name
-        self.srpm = self._srpm.as_posix()
         if self._srpm.exists():
-            return self.srpm
+            return self._srpm.as_posix()
         else:
             err = 'srpm {} does not exist'.format(self._srpm)
             raise click.ClickException(err)
@@ -132,7 +132,7 @@ class ContextObj():
         command = ['mock',
                    '--root', self.root,
                    '--define', 'dist .{}'.format(self.release),
-                   '--rebuild', self.get_srpm_name(),
+                   '--rebuild', self.srpm,
                    '--spec', self.spec,
                    '--sources', self.sources,
                    '--resultdir', self.results,
