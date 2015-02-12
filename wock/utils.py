@@ -7,16 +7,15 @@ class ContextObj():
     def __init__(self, pkgname, release, architecture):
         self._base = pathlib.Path.cwd()
         self.pkgname = pkgname or self._base.name
+        self.release = release
+        self.architecture = architecture
 
-        if release:
-            self.release = release
-        else:
+    def setup(self):
+        if self.release is None:
             err = ('Undefined release.\n\nSet the release either with the '
                    '"--release" flag or by setting the environment variable '
                    'WOCK.\n\nExample:\nexport WOCK=el6\n')
             raise click.ClickException(err)
-        self.architecture = architecture
-
         mockdir = pathlib.Path('/etc/mock')
         pattern = '{}?{}.cfg'.format(self.release, self.architecture)
         configs = list(mockdir.glob(pattern))
@@ -32,26 +31,28 @@ class ContextObj():
         self.mockcfg = self._mockcfg.as_posix()
         self.root = self._mockcfg.stem
 
+    def build_setup(self):
         self._sources = self._base / 'SOURCES'
+        if not self._sources.is_dir():
+            self._sources.mkdir()
         self.sources = self._sources.as_posix()
 
         self._results = self._base / 'MOCK' / self.root
+        if not self._results.is_dir():
+            self._results.mkdir(parents=True)
         self.results = self._results.as_posix()
 
         self._spec = self._base / 'SPECS' / (self.pkgname + '.spec')
-        self.spec = self._spec.as_posix()
-
-    def do_checks(self):
-        if not self._sources.is_dir():
-            self._sources.mkdir()
-        if not self._results.is_dir():
-            self._results.mkdir(parents=True)
         if not self._spec.exists():
             err = 'spec file {} does not exist'.format(self.spec)
             raise click.ClickException(err)
+        self.spec = self._spec.as_posix()
+
+    def get_sources(self):
         command = ['spectool',
                    '--directory', self.sources,
                    '--get-files', self.spec]
+        click.secho(' '.join(command), fg='cyan')
         self._run(command)
 
     def get_srpm_name(self):
@@ -82,27 +83,33 @@ class ContextObj():
                 print(line, end='')
 
     def init(self):
+        self.setup()
         command = ['mock', '--root', self.root, '--init']
         click.secho(' '.join(command), fg='cyan')
         self._run(command)
 
     def clean(self):
+        self.setup()
         command = ['mock', '--root', self.root, '--clean']
         click.secho(' '.join(command), fg='cyan')
         self._run(command)
 
     def install(self, packages):
+        self.setup()
         command = ['mock', '--root', self.root, '--install']
         command.extend(packages)
         click.secho(' '.join(command), fg='cyan')
         self._run(command)
 
     def shell(self, task):
+        self.setup()
         command = ['mock', '--root', self.root, '--shell', task]
         click.secho(' '.join(command), fg='cyan')
         self._run(command)
 
     def build_srpm(self):
+        self.setup()
+        self.build_setup()
         # rpmbuild-md5 -D "dist ${DIST}" --define='_topdir %(pwd)' --nodeps
         # -bs ${SPEC}
         command = ['mock',
@@ -118,6 +125,8 @@ class ContextObj():
         self._run(command)
 
     def build_rpm(self):
+        self.setup()
+        self.build_setup()
         # mock "${MACROS[@]}" --root ${MOCKCFG} --resultdir=MOCK
         # --no-cleanup-after --rebuild MOCK/${SRPM}
         command = ['mock',
