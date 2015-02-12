@@ -1,7 +1,7 @@
 Name: wock
 Version: 0.1
 Release: 1%{?dist}
-Summary: A wrapper for mock
+Summary: A stupid wrapper for mock
 Group: Development/Tools
 License: ASL 2.0
 URL: https://github.rackspace.com/carl-george/wock
@@ -14,7 +14,7 @@ Requires: python3-click
 
 
 %description
-A wrapper for mock.
+A stupid wrapper for mock.
 
 
 %prep

@@ -11,7 +11,7 @@ from .utils import ContextObj
 @click.option('--architecture', default='x86_64', help='[x86_64]')
 @click.pass_context
 def cli(context, pkgname, release, architecture):
-    ''' A wrapper for mock. '''
+    ''' A stupid wrapper for mock. '''
     context.obj = ContextObj(pkgname, release, architecture)
 
 

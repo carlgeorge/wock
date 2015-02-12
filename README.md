@@ -1,4 +1,4 @@
 wock
 ====
 
-a wrapper for mock
+a stupid wrapper for mock
