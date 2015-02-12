@@ -16,21 +16,21 @@ def cli(context, pkgname, release, architecture):
     context.obj = ContextObj(pkgname, release, architecture)
 
 
-@click.command()
+@cli.command()
 @click.pass_obj
 def init(cobj):
     ''' Initialize a chroot. '''
     cobj.init()
 
 
-@click.command()
+@cli.command()
 @click.pass_obj
 def clean(cobj):
     ''' Purge the chroot. '''
     cobj.clean()
 
 
-@click.command()
+@cli.command()
 @click.option('--just-srpm', is_flag=True, help='Only build the srpm.')
 @click.pass_obj
 def build(cobj, just_srpm):
@@ -38,7 +38,7 @@ def build(cobj, just_srpm):
     cobj.build(just_srpm)
 
 
-@click.command()
+@cli.command()
 @click.argument('packages', nargs=-1, type=click.Path(exists=True))
 @click.pass_obj
 def install(cobj, packages):
@@ -46,16 +46,9 @@ def install(cobj, packages):
     cobj.install(packages)
 
 
-@click.command()
+@cli.command()
 @click.argument('command', default='bash')
 @click.pass_obj
 def shell(cobj, command):
     ''' Run command interactively inside chroot. '''
     cobj.shell(command)
-
-
-cli.add_command(init)
-cli.add_command(clean)
-cli.add_command(build)
-cli.add_command(install)
-cli.add_command(shell)
