@@ -107,11 +107,11 @@ class ContextObj():
         click.secho(' '.join(command), fg='cyan')
         self._run(command)
 
-    def build_srpm(self):
+    def build(self, just_srpm):
         self.setup()
         self.build_setup()
-        # rpmbuild-md5 -D "dist ${DIST}" --define='_topdir %(pwd)' --nodeps
-        # -bs ${SPEC}
+        self.get_sources()
+
         command = ['mock',
                    '--root', self.root,
                    '--define', 'dist .{}'.format(self.release),
@@ -124,19 +124,15 @@ class ContextObj():
         click.secho(' '.join(command), fg='cyan')
         self._run(command)
 
-    def build_rpm(self):
-        self.setup()
-        self.build_setup()
-        # mock "${MACROS[@]}" --root ${MOCKCFG} --resultdir=MOCK
-        # --no-cleanup-after --rebuild MOCK/${SRPM}
-        command = ['mock',
-                   '--root', self.root,
-                   '--define', 'dist .{}'.format(self.release),
-                   '--rebuild', self.srpm,
-                   '--spec', self.spec,
-                   '--sources', self.sources,
-                   '--resultdir', self.results,
-                   '--no-clean',
-                   '--no-cleanup-after']
-        click.secho(' '.join(command), fg='cyan')
-        self._run(command)
+        if not just_srpm:
+            command = ['mock',
+                       '--root', self.root,
+                       '--define', 'dist .{}'.format(self.release),
+                       '--rebuild', self.srpm,
+                       '--spec', self.spec,
+                       '--sources', self.sources,
+                       '--resultdir', self.results,
+                       '--no-clean',
+                       '--no-cleanup-after']
+            click.secho(' '.join(command), fg='cyan')
+            self._run(command)
