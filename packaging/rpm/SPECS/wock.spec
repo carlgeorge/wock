@@ -32,6 +32,7 @@ A stupid wrapper for mock.
 
 %files
 %doc README.md
+%{_bindir}/%{name}
 %{python3_sitelib}/%{name}
 %{python3_sitelib}/%{name}-%{version}-py?.?.egg-info
 %{_datadir}/bash-completion/completions/wock
