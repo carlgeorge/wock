@@ -30,23 +30,12 @@ def clean(cobj):
     cobj.clean()
 
 
-@click.group()
-@click.pass_obj
-def build(cobj):
-    ''' Build a (s)rpm. '''
-    cobj.do_checks()
-
-
 @click.command()
+@click.option('--just-srpm', is_flag=True, help='Only build the srpm.')
 @click.pass_obj
-def srpm(cobj):
-    cobj.build_srpm()
-
-
-@click.command()
-@click.pass_obj
-def rpm(cobj):
-    cobj.build_rpm()
+def build(cobj, just_srpm):
+    ''' Build an rpm inside the chroot. '''
+    cobj.build(just_srpm)
 
 
 @click.command()
@@ -65,8 +54,6 @@ def shell(cobj, command):
     cobj.shell(command)
 
 
-build.add_command(rpm)
-build.add_command(srpm)
 cli.add_command(init)
 cli.add_command(clean)
 cli.add_command(build)
