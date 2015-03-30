@@ -6,8 +6,8 @@ setuptools.setup(
     version='0.1',
     description='a stupid wrapper for mock',
     author='Carl George',
-    author_email='carl.george@rackspace.com',
-    url='https://github.rackspace.com/carl-george/wock',
+    author_email='carl@cgtx.us',
+    url='https://github.com/cgtx/wock',
     packages=['wock'],
     install_requires=['click'],
     entry_points={
